@@ -21,7 +21,7 @@ var myStyle = [
 		featureType: "road",
 		elementType: "labels",
 		stylers: [
-			{ visibility: "off" }
+			{ visibility: "on" }
 		]
 	}
 ];
@@ -29,6 +29,7 @@ var myStyle = [
 var map = null;
 var location, p1;
 var markersArray = [];
+var linesArray = [];
 var markerCounter = 0;
 var guessCounter = 0;
 var score = 0;
@@ -36,13 +37,19 @@ var ranIndex;
 
 // Random number generator
 
-	ranIndex = Math.floor((Math.random()*180)+1);
+ranIndex = Math.floor((Math.random()*180)+1);
 
 
 function start() {
+
+	$("#side_bar").animate({width:"350px"}, 400);
+	$(".header").remove();
+	/*
 	modal.open({ content: function() { 
 		return "<div class='modal-content'>" + d[ranIndex].name + "</div>"; 
 	}});
+	*/
+
 }
 
 
@@ -50,7 +57,11 @@ function clearOverlays() {
 	for (var i = 0; i < markersArray.length; i++ ) {
 		markersArray[i].setMap(null);
 	}
+	for (var z = 0; z < linesArray.length; z++) {                           
+  		linesArray[z].setMap(null);
+	}
 	markersArray = [];
+	linesArray = [];
 }
 
 function initalize() {
@@ -80,10 +91,12 @@ function initalize() {
 
 
 function placeMarker(lat, long) {
+	var answerIcon = new google.maps.MarkerImage("../img/marker-green.png", null, null, null, new google.maps.Size(45,65));
 	var marker = new google.maps.Marker({
 		animation: google.maps.Animation.DROP,
 		position: new google.maps.LatLng(lat, long),
-		map: map
+		map: map,
+		icon: answerIcon
 	});
 	// console.log(lat);
 	markersArray.push(marker);
@@ -92,7 +105,7 @@ function placeMarker(lat, long) {
 }
 
 function checkAnswer(p1) {
-	var answerIcon = new google.maps.MarkerImage("../img/drop_red-18.png", null, null, null, new google.maps.Size(55,75));
+	var answerIcon = new google.maps.MarkerImage("../img/marker-red.png", null, null, null, new google.maps.Size(45,65));
 	var p2 = new google.maps.LatLng(d[ranIndex].lat, d[ranIndex].long);
 	var marker = new google.maps.Marker({
 		animation: google.maps.Animation.DROP,
@@ -100,6 +113,7 @@ function checkAnswer(p1) {
 		map: map,
 		icon: answerIcon
 	});
+	markersArray.push(marker);
 	calcDistance(p1, p2);
 	guessCounter = 1;
 }
@@ -113,9 +127,10 @@ function calcDistance(point1, point2) {
 		path: [new google.maps.LatLng(point1.nb, point1.ob), new google.maps.LatLng(point2.nb, point2.ob)],
 			strokeColor: "black",
 			strokeOpacity: 1.0,
-			strokeWeight: 4,
+			strokeWeight: 2,
 			map: map
 		});
+		linesArray.push(line);
 	}, 500);
 
 	setTimeout(function() {
@@ -163,7 +178,7 @@ var modal = (function(){
 
                     $modal.fadeIn(420);
                     $overlay.fadeIn(420);
-						$close.fadeIn(420);
+			$close.fadeIn(420);
 
                     method.center();
                     $(window).bind("resize.modal", method.center);
@@ -206,11 +221,15 @@ var modal = (function(){
         return method;
 }());
 
-
 $(document).ready(function() {
 	initalize();
 	console.log(d[ranIndex]);
+	$("#top_bar").html(function() {
+		var title = "<h1 class=\"title\">Historically Louisville</h1>";
+		var byline = "<h2 class=\"byline\">By Adam Schweigert, Claire Ellen Lindsey and Frank Bi</h2>";
+		var start = "<button onclick=\"start()\" class=\"header\">Let's get started</button>";
+		return title + byline + start;
+	});
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle));
-	$("#top_bar").animate({height:"70px"}, 500);
 });
 

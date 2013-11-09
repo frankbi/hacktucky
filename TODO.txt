@@ -1,0 +1,6 @@
+1. center onload map better
+2. add multi question support
+3. better styling
+4. fix bugs
+	-
+	-
