@@ -6,8 +6,10 @@ h1 {
 	padding:0px;
 }
 h1.title {
-	margin:0px 20px;
+
 	padding:0px;
+	font-size:29px;
+	text-align:center;
 }
 h2.byline {
 	margin:0px 22px;
@@ -45,6 +47,7 @@ p.description {
 	z-index:3;
 	margin:0px;
 	padding:8px;
+	text-align:center;
 }
 .clearfix:after {
 	content: ".";
@@ -57,13 +60,17 @@ button {
 	font-family: 'Roboto', sans-serif;
 	background-color:rgb(114,160,193);
 	padding:8px;
+	width:90%;
 }
 button.header {
 	position:relative;
 	top:20px;
 	left:20px;
 }
-
+button.start_button {
+	width:90%;
+	margin-left:16px;
+}
 #close {
 	position:absolute;
 	background:url(../img/close.png) 0 0 no-repeat;
@@ -102,4 +109,9 @@ img.side_bar_photo {
 }
 .next_button {
 
+}
+.masthead {
+	min-height:10px;
+	border-bottom:1px solid silver;
+	background-image:url('');
 }

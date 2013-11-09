@@ -17,16 +17,15 @@ function myQuestions() {
 }
 
 function start() {
-	$("#side_bar").animate({width:"320px"}, 400);
-	$(".header").remove();
 		
 	$("#side_bar").html(function() {
 		console.log(d[quesRan[quesCounter]].image_filename);
+		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
 		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
 		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
 		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
 		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-		return name + image + checkAns + nextQues; 
+		return masthead + name + image + checkAns + nextQues; 
 	});
 
 }
@@ -54,11 +53,12 @@ function nextQues() {
 	/* replace from above */
 	$("#side_bar").html(function() {
 		console.log(d[quesRan[quesCounter]].image_filename);
+		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
 		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
 		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
 		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
 		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-		return name + image + checkAns + nextQues; 
+		return masthead + name + image + checkAns + nextQues; 
 	});
 	/* replace from above */
 	////////////////////////
@@ -80,8 +80,8 @@ function initalize() {
 		mapTypeControlOptions: {
 			mapTypeIds: ['mystyle', google.maps.MapTypeId.TERRAIN]
 		},
-		center: new google.maps.LatLng(38.0,-85.45),
-		zoom: 10,
+		center: new google.maps.LatLng(38.234405,-85.804253),
+		zoom: 11,
 		disableDefaultUI: true,
 		mapTypeId: 'mystyle'
 	});
@@ -176,13 +176,22 @@ $(document).ready(function() {
 	initalize();
 	myQuestions();
 	console.log(d[quesRan[quesCounter]]);
-	
+
+	$("#side_bar").animate({width:"320px"}, 400);
+	$("#side_bar").html(function() {
+		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
+		var startbutton = "<button onclick='start()' class='start_button'>Let's get started</button>";
+		return masthead + startbutton;
+	});
+
+	/*
 	$("#top_bar").html(function() {
 		var title = "<h1 class=\"title\">Historically Louisville</h1>";
 		var byline = "<h2 class=\"byline\">By Adam Schweigert, Claire Ellen Lindsey and Frank Bi</h2>";
 		var start = "<button onclick=\"start()\" class=\"header\">Let's get started</button>";
 		return title + byline + start;
 	});
+	*/
 	
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle));
 });
