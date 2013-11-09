@@ -29,8 +29,9 @@ function start() {
 		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
 		var roundscore = "<div class=\"round_score\"></div>";
 		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
-		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-		return masthead + name + image + roundscore + checkAns + nextQues; 
+		//var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
+		//return masthead + name + image + roundscore + checkAns + nextQues;
+		return masthead + name + image + roundscore + checkAns;
 	});
 
 }
@@ -52,9 +53,10 @@ function checkAnswer(p1) {
 		var image = "<div class='descrip_box'><img class=\"side_bar_photo descrip\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
 		var description = d[quesRan[quesCounter]].short_description;
 		var learnmore = "<br><a target=\"_blank\" href=\"" + d[quesRan[quesCounter]].moreinfo_link + "\">Learn More</a></div>";
-		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
+		// var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
 		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-		return masthead + roundscore + name + image + description + learnmore + checkAns + nextQues; 
+		// return masthead + roundscore + name + image + description + learnmore + checkAns + nextQues; 
+		return masthead + roundscore + name + image + description + learnmore + nextQues; 
 	});
 	
 	markersArray.push(marker);
@@ -76,8 +78,8 @@ function nextQues() {
 			var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
 			var roundscore = "<div class=\"round_score\"></div>";
 			var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
-			var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-			return masthead + name + image + roundscore + checkAns + nextQues; 
+			// var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
+			return masthead + name + image + roundscore + checkAns; 
 		});
 
 
@@ -92,7 +94,7 @@ function nextQues() {
 			var round5 = "<p class='finalscores'>Round 5: " + scoreTracker[4] + "</p>";
 			var roundscores = round1 + round2 + round3 + round4 + round5;
 			var restart = "<button onclick='location.reload()'>Play Again</button>";
-			return masthead + roundscores + finalscore + twitterTweet(globalScore) + buttonReturn(finalscore) + restart;
+			return masthead + roundscores + finalscore + twitterTweet(globalScore) + buttonReturn(globalScore) + restart;
 		});
 	}
 }
