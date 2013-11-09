@@ -19,7 +19,7 @@ function myQuestions() {
 function start() {
 		
 	$("#side_bar").html(function() {
-		console.log(d[quesRan[quesCounter]].image_filename);
+		// console.log(d[quesRan[quesCounter]].image_filename);
 		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
 		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
 		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
@@ -45,23 +45,35 @@ function checkAnswer(p1) {
 }
 
 function nextQues() {
+
 	quesCounter++;
-	clearOverlays();
-	guessCounter = 0;
-	
-	////////////////////////
-	/* replace from above */
-	$("#side_bar").html(function() {
-		console.log(d[quesRan[quesCounter]].image_filename);
-		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
-		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
-		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
-		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
-		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-		return masthead + name + image + checkAns + nextQues; 
-	});
-	/* replace from above */
-	////////////////////////
+	console.log(quesCounter);
+	if (quesCounter < 4) {
+		clearOverlays();
+		guessCounter = 0;
+		
+		////////////////////////
+		/* replace from above */
+		$("#side_bar").html(function() {
+			// console.log(d[quesRan[quesCounter]].image_filename);
+			var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
+			var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
+			var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
+			var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
+			var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
+			return masthead + name + image + checkAns + nextQues; 
+		});
+		/* replace from above */
+		////////////////////////
+		
+	} else {
+		$("#side_bar").html(function() {
+			var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
+			var finalscore = "<h1>Final Score: " + globalScore + "</h1>";
+			var restart = "<button onclick='location.reload()'>Play Again</button>";
+			return masthead + finalscore + twitterTweet(globalScore) + restart;
+		});
+	}
 }
 
 function clearOverlays() {
@@ -139,9 +151,14 @@ function calcScore(dis) {
         // use the distance to generate some kind of score
         // add it to the score variable
         score = Math.round(score + (1 / dis) * 100);
-        console.log("one score: " + score);
+        // console.log("one score: " + score);
         globalScore = globalScore + score;
-        console.log("global score: " + globalScore); 
+        // console.log("global score: " + globalScore); 
+}
+
+function twitterTweet(score) {
+setTimeout(function() {!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs')}, 200);
+	return "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"http://historicallylouisville.com\" data-text=\"Can you beat my score of " + score + "? Test your knowledge of Louisville landmarks at\" data-via=\"sndlou\" data-size=\"large\" data-count=\"none\" data-hashtags=\"hacktucky\">Tweet</a>";
 }
 
 var myStyle = [
@@ -175,14 +192,16 @@ var myStyle = [
 $(document).ready(function() {
 	initalize();
 	myQuestions();
-	console.log(d[quesRan[quesCounter]]);
+	// console.log(d[quesRan[quesCounter]]);
 
 	$("#side_bar").animate({width:"320px"}, 400);
 	$("#side_bar").html(function() {
 		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
+		var description = "<p class='description'>Click on the map where you think each nationally registered historical landmark is located.</p>";
 		var startbutton = "<button onclick='start()' class='start_button'>Let's get started</button>";
-		return masthead + startbutton;
+		return masthead + description + startbutton;
 	});
+
 
 	/*
 	$("#top_bar").html(function() {
