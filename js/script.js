@@ -29,11 +29,13 @@ var myStyle = [
 
 var map = null;
 var location, p1;
-var markersArray = [];	
+var markersArray = [];
 var markerCounter = 0;
 var guessCounter = 0;
+var score = 0;
 // Random number generator
 var ranIndex = Math.floor((Math.random()*180)+1);
+
 
 function clearOverlays() {
 	for (var i = 0; i < markersArray.length; i++ ) {
@@ -54,7 +56,7 @@ function initalize() {
 	});
 
 	google.maps.event.addListener(map, 'click', function(event){
-		if (guessCounter == 0) {			
+		if (guessCounter == 0) {
 			var lat = event.latLng.lat();
 			var long = event.latLng.lng();
 			if (markerCounter == 0) {
@@ -66,7 +68,7 @@ function initalize() {
 
 		}
 	});
-	
+
 }
 
 function placeMarker(lat, long) {
@@ -94,7 +96,7 @@ function checkAnswer(p1) {
 
 function calcDistance(point1, point2) {
 	var distance = google.maps.geometry.spherical.computeDistanceBetween(point1, point2) / 1000;
-	
+
 	// Draw line
 	setTimeout(function() {
 		var line = new google.maps.Polyline({
@@ -105,21 +107,27 @@ function calcDistance(point1, point2) {
 			map: map
 		});
 	}, 500);
-	
+
 	setTimeout(function() {
 		modal.open({ content: function() { return "<div class='modal-content'>asdfasdfasd</div>"; } })
 	}, 1000);
-	
+
 	calcScore(distance);
 
 }
 
 function calcScore(dis) {
 	console.log(dis);
+	// dis = distance away in km
+	// use the distance to generate some kind of score
+	// add it to the score variable
+	score = score + (1 / dis) * 100;
+	console.log(score);
+
 }
 
 var modal = (function(){
-        var 
+        var
         method = {},
         $overlay,
         $modal,
@@ -131,7 +139,7 @@ var modal = (function(){
                     top = Math.max($(window).height() - $modal.outerHeight(), 0) / 2;
                     left = Math.max($(window).width() - $modal.outerWidth(), 0) / 2;
                     $modal.css({
-                            top:top + $(window).scrollTop(), 
+                            top:top + $(window).scrollTop(),
                             left:left + $(window).scrollLeft()
                     });
         };
@@ -140,7 +148,7 @@ var modal = (function(){
                         var s = $content.empty().append(settings.content)
 
                                 $modal.css({
-                                            width: settings.width || "auto", 
+                                            width: settings.width || "auto",
                                             height: settings.height || "auto"
                                 });
 
@@ -174,7 +182,7 @@ var modal = (function(){
         $modal.append($content, $close);
 
         $(document).ready(function(){
-                    $("body").append($overlay, $modal);                                     
+                    $("body").append($overlay, $modal);
         });
 
         $overlay.click(function(e){
