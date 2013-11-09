@@ -1,12 +1,14 @@
 html {
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Share', cursive;
+}
+a {
+	text-decoration:none;
 }
 h1 {
 	margin:0px;
 	padding:0px;
 }
 h1.title {
-
 	padding:0px;
 	font-size:29px;
 	text-align:center;
@@ -27,7 +29,9 @@ p.description {
 	padding:0px;
 }
 p.finalscores {
-
+	font-size:22px;
+	margin:8px;
+	padding:0px;
 }
 #map {
 	position:absolute;
@@ -67,10 +71,11 @@ p.finalscores {
 	visibility: hidden;
 }
 button {
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Share', cursive;
+	font-size:19px;
 	background-color:rgb(114,160,193);
 	padding:8px;
-	width:90%;
+	width:100%;
 }
 button.header {
 	position:relative;
@@ -78,7 +83,7 @@ button.header {
 	left:20px;
 }
 button.start_button {
-	width:90%;
+	width:100%;
 	margin-left:16px;
 }
 #close {
@@ -128,7 +133,9 @@ img.side_bar_photo {
 	background-repeat:no-repeat;
 }
 .round_score {
-
+	border-bottom:1px solid silver;
+	font-weight:25px;
+	margin:6px 0 8px 0;
 }
 .startbutton {
 	cursor:pointer;
@@ -142,7 +149,7 @@ img.side_bar_photo {
 	margin:4px 0 4px 0;
 }
 .descrip {
-	margin:5px 5px 0;
+	margin:0 5px 0px 0;
 	width:150px !important;
 	float:left;
 }

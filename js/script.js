@@ -48,12 +48,13 @@ function checkAnswer(p1) {
 	$("#side_bar").html(function() {
 		var masthead = "<div class='masthead'></div>";
 		var name = "<h1 class='place'>" + d[quesRan[quesCounter]].name + "</h1>";
-		var image = "<div class='descrip_box'><img class=\"side_bar_photo descrip\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
-		var description = d[quesRan[quesCounter]].short_description + "</div>";
 		var roundscore = "<div class=\"round_score\"></div>";
+		var image = "<div class='descrip_box'><img class=\"side_bar_photo descrip\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
+		var description = d[quesRan[quesCounter]].short_description;
+		var learnmore = "<br><a target=\"_blank\" href=\"" + d[quesRan[quesCounter]].moreinfo_link + "\">Learn More</a></div>";
 		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
 		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-		return masthead + name + image + description + roundscore + checkAns + nextQues; 
+		return masthead + roundscore + name + image + description + learnmore + checkAns + nextQues; 
 	});
 	
 	markersArray.push(marker);
@@ -183,8 +184,8 @@ function calcScore(dis) {
         score = Math.round(score + (1 / dis) * 100);
         scoreTracker.push(score);
         $(".round_score").html(function() {
-        	var sc = "<h1 style='font-size:15px;'>Score: " + score + "</h1>";
-        	var distance = "<h1 style='font-size:15px;'>Distance: " + dis.toFixed(2) + " km</h1>";
+        	var sc = "<h1 style='font-size:20px;'>Score: " + score + "</h1>";
+        	var distance = "<h1 style='font-size:20px;'>Distance: " + dis.toFixed(2) + " km</h1>";
         	return distance + sc;
         });
         // console.log("one score: " + score);
@@ -235,8 +236,10 @@ $(document).ready(function() {
 		var masthead = "<div class='masthead'></div>";
 		var subhead = "<p class='subhead'>Explore Louisville's historic landmarks</p>";
 		var description = "<p class='description' style='font-weight:bold;font-style:italic;color:rgb(211,87,61);'>Click on the map where you think each nationally registered historical landmark is located.</p>";
-		var startbutton = "<img class='startbutton' src='../img/startbutton.png' onclick='start()'>";
-		return masthead + subhead + description + startbutton;
+		var startbutton = "<img class='startbutton' style=\"width:70%;\" src='../img/startbutton.png' onclick='start()'>";
+		var outline = "<img src=\"../img/outline.png\" width=\"100%\" style=\"z-index:5;\">";
+		var byline = "<p style=\"float:bottom;\">Designed and built at Hacktucky 2013 by Adam Schweigert, Claire Ellen Lindsey and Frank Bi</p>"
+		return masthead + subhead + description + startbutton + outline + byline;
 	});
 
 
