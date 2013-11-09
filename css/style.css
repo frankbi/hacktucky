@@ -3,6 +3,9 @@ html {
 }
 a {
 	text-decoration:none;
+	font-size:18px;
+	font-weight:bolder;
+	color:rgb(255,119,85);
 }
 h1 {
 	margin:0px;
@@ -155,4 +158,5 @@ img.side_bar_photo {
 }
 .descrip_box {
 	text-align:left;
+	margin-bottom:15px;
 }

@@ -92,8 +92,16 @@ function nextQues() {
 			var round5 = "<p class='finalscores'>Round 5: " + scoreTracker[4] + "</p>";
 			var roundscores = round1 + round2 + round3 + round4 + round5;
 			var restart = "<button onclick='location.reload()'>Play Again</button>";
-			return masthead + roundscores + finalscore + twitterTweet(globalScore) + restart;
+			return masthead + roundscores + finalscore + twitterTweet(globalScore) + buttonReturn(finalscore) + restart;
 		});
+	}
+}
+
+function buttonReturn(score) {
+	if (score < 500) {
+		return "<img width=\"70%\" src=\"../img/goodtry.png\">";
+	} else {
+		return "<img width=\"70%\" src=\"../img/nicework.png\">";
 	}
 }
 
@@ -184,9 +192,9 @@ function calcScore(dis) {
         score = Math.round(score + (1 / dis) * 100);
         scoreTracker.push(score);
         $(".round_score").html(function() {
-        	var sc = "<h1 style='font-size:20px;'>Score: " + score + "</h1>";
-        	var distance = "<h1 style='font-size:20px;'>Distance: " + dis.toFixed(2) + " km</h1>";
-        	return distance + sc;
+                var sc = "<h1 style='font-size:25px;'>Your score is " + score + "</h1>";
+                var distance = "<h1 style='margin-bottom:8px;font-weight:normal;font-size:18px;'>Your guess was " + dis.toFixed(2) + " km away</h1>";
+        	return sc + distance;
         });
         // console.log("one score: " + score);
         globalScore = globalScore + score;
@@ -229,7 +237,6 @@ var myStyle = [
 $(document).ready(function() {
 	initalize();
 	myQuestions();
-	// console.log(d[quesRan[quesCounter]]);
 
 	$("#side_bar").animate({width:"320px"}, 400);
 	$("#side_bar").html(function() {
@@ -241,16 +248,6 @@ $(document).ready(function() {
 		var byline = "<p style=\"float:bottom;\">Designed and built at Hacktucky 2013 by Adam Schweigert, Claire Ellen Lindsey and Frank Bi</p>"
 		return masthead + subhead + description + startbutton + outline + byline;
 	});
-
-
-	/*
-	$("#top_bar").html(function() {
-		var title = "<h1 class=\"title\">Historically Louisville</h1>";
-		var byline = "<h2 class=\"byline\">By Adam Schweigert, Claire Ellen Lindsey and Frank Bi</h2>";
-		var start = "<button onclick=\"start()\" class=\"header\">Let's get started</button>";
-		return title + byline + start;
-	});
-	*/
 	
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle));
 });
