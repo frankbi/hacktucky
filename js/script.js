@@ -4,7 +4,7 @@ var markersArray = [];
 var linesArray = [];
 var markerCounter = 0;
 var guessCounter = 0;
-var score = 0; // indiv selection score added to globalScore
+var score = 0;
 var globalScore = 0;
 var scoreTracker = [];
 
@@ -99,9 +99,9 @@ function nextQues() {
 
 function buttonReturn(score) {
 	if (score < 500) {
-		return "<img width=\"70%\" src=\"../img/goodtry.png\">";
+		return "<div class=\"end_button\"><img width=\"70%\" src=\"../img/goodtry.png\"></div>";
 	} else {
-		return "<img width=\"70%\" src=\"../img/nicework.png\">";
+		return "<div class=\"end_button\"><img width=\"70%\" src=\"../img/nicework.png\"></div>";
 	}
 }
 
