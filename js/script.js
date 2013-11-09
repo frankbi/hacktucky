@@ -1,57 +1,68 @@
-var myStyle = [
-	{
-		featureType: "administrative",
-		elementType: "labels",
-		stylers: [
-			{ visibility: "off" }
-		]
-	},{
-		featureType: "poi",
-		elementType: "labels",
-		stylers: [
-			{ visibility: "off" }
-		]
-	},{
-		featureType: "water",
-		elementType: "labels",
-		stylers: [
-			{ visibility: "on" }
-		]
-	},{
-		featureType: "road",
-		elementType: "labels",
-		stylers: [
-			{ visibility: "on" }
-		]
-	}
-];
-
 var map = null;
 var location, p1;
 var markersArray = [];
 var linesArray = [];
 var markerCounter = 0;
 var guessCounter = 0;
-var score = 0;
-var ranIndex;
+var score = 0; // indiv selection score added to globalScore
+var globalScore = 0;
 
-// Random number generator
+var quesRan = [];
+var quesCounter = 0;
 
-ranIndex = Math.floor((Math.random()*180)+1);
-
+function myQuestions() {
+	for (var i = 0; i < 4; i++) {
+		quesRan[i] = Math.floor((Math.random()*20)+1);
+	}
+}
 
 function start() {
-
 	$("#side_bar").animate({width:"400px"}, 400);
 	$(".header").remove();
-	/*
-	modal.open({ content: function() { 
-		return "<div class='modal-content'>" + d[ranIndex].name + "</div>"; 
-	}});
-	*/
+		
+	$("#side_bar").html(function() {
+		console.log(d[quesRan[quesCounter]].image_filename);
+		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
+		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
+		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
+		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
+		return name + image + checkAns + nextQues; 
+	});
 
 }
 
+function checkAnswer(p1) {
+	var answerIcon = new google.maps.MarkerImage("../img/marker-red.png", null, null, null, new google.maps.Size(45,65));
+	var p2 = new google.maps.LatLng(d[quesRan[quesCounter]].lat, d[quesRan[quesCounter]].long);
+	var marker = new google.maps.Marker({
+		animation: google.maps.Animation.DROP,
+		position: new google.maps.LatLng(p2.nb, p2.ob),
+		map: map,
+		icon: answerIcon
+	});
+	markersArray.push(marker);
+	calcDistance(p1, p2);
+	guessCounter = 1;
+}
+
+function nextQues() {
+	quesCounter++;
+	clearOverlays();
+	guessCounter = 0;
+	
+	////////////////////////
+	/* replace from above */
+	$("#side_bar").html(function() {
+		console.log(d[quesRan[quesCounter]].image_filename);
+		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
+		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
+		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
+		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
+		return name + image + checkAns + nextQues; 
+	});
+	/* replace from above */
+	////////////////////////
+}
 
 function clearOverlays() {
 	for (var i = 0; i < markersArray.length; i++ ) {
@@ -104,20 +115,6 @@ function placeMarker(lat, long) {
 	p1 = new google.maps.LatLng(lat, long);
 }
 
-function checkAnswer(p1) {
-	var answerIcon = new google.maps.MarkerImage("../img/marker-red.png", null, null, null, new google.maps.Size(45,65));
-	var p2 = new google.maps.LatLng(d[ranIndex].lat, d[ranIndex].long);
-	var marker = new google.maps.Marker({
-		animation: google.maps.Animation.DROP,
-		position: new google.maps.LatLng(p2.nb, p2.ob),
-		map: map,
-		icon: answerIcon
-	});
-	markersArray.push(marker);
-	calcDistance(p1, p2);
-	guessCounter = 1;
-}
-
 function calcDistance(point1, point2) {
 	var distance = google.maps.geometry.spherical.computeDistanceBetween(point1, point2) / 1000;
 
@@ -133,10 +130,6 @@ function calcDistance(point1, point2) {
 		linesArray.push(line);
 	}, 500);
 
-	setTimeout(function() {
-		modal.open({ content: function() { return "<div class='modal-content'>asdfasdfasd</div>"; } })
-	}, 1000);
-
 	calcScore(distance);
 
 }
@@ -146,91 +139,50 @@ function calcScore(dis) {
         // use the distance to generate some kind of score
         // add it to the score variable
         score = Math.round(score + (1 / dis) * 100);
-        console.log(score)
+        console.log("one score: " + score);
+        globalScore = globalScore + score;
+        console.log("global score: " + globalScore); 
 }
+
+var myStyle = [
+	{
+		featureType: "administrative",
+		elementType: "labels",
+		stylers: [
+			{ visibility: "off" }
+		]
+	},{
+		featureType: "poi",
+		elementType: "labels",
+		stylers: [
+			{ visibility: "off" }
+		]
+	},{
+		featureType: "water",
+		elementType: "labels",
+		stylers: [
+			{ visibility: "on" }
+		]
+	},{
+		featureType: "road",
+		elementType: "labels",
+		stylers: [
+			{ visibility: "on" }
+		]
+	}
+];
 
 $(document).ready(function() {
 	initalize();
-	console.log(d[ranIndex]);
+	myQuestions();
+	console.log(d[quesRan[quesCounter]]);
+	
 	$("#top_bar").html(function() {
 		var title = "<h1 class=\"title\">Historically Louisville</h1>";
 		var byline = "<h2 class=\"byline\">By Adam Schweigert, Claire Ellen Lindsey and Frank Bi</h2>";
 		var start = "<button onclick=\"start()\" class=\"header\">Let's get started</button>";
 		return title + byline + start;
 	});
+	
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle));
 });
-
-/*
-var modal = (function(){
-        var
-        method = {},
-        $overlay,
-        $modal,
-        $content,
-        $close;
-
-        method.center = function () {
-                    var top, left;
-                    top = Math.max($(window).height() - $modal.outerHeight(), 0) / 2;
-                    left = Math.max($(window).width() - $modal.outerWidth(), 0) / 2;
-                    $modal.css({
-                            top:top + $(window).scrollTop(),
-                            left:left + $(window).scrollLeft()
-                    });
-        };
-
-        method.open = function (settings) {
-                        var s = $content.empty().append(settings.content)
-
-                                $modal.css({
-                                            width: settings.width || "auto",
-                                            height: settings.height || "auto"
-                                });
-
-
-                    $modal.fadeIn(420);
-                    $overlay.fadeIn(420);
-			$close.fadeIn(420);
-
-                    method.center();
-                    $(window).bind("resize.modal", method.center);
-                    $modal.show();
-                    $overlay.show();
-        };
-
-
-        method.close = function () {
-                    $modal.fadeOut(420);
-                    $overlay.fadeOut(420);
-                    $close.fadeOut(0);
-                    $content.empty();
-                    $(window).unbind("resize.modal");
-        };
-
-        $overlay = $("<div id='overlay'></div>");
-        $modal = $("<div id='modal'></div>");
-        $content = $("<div id='grid-content'></div>");
-        $close = $("<a id='close' href='#'></a>");
-
-        $modal.hide();
-        $overlay.hide();
-        $modal.append($content, $close);
-
-        $(document).ready(function(){
-                    $("body").append($overlay, $modal);
-        });
-
-        $overlay.click(function(e){
-                    e.preventDefault();
-                    method.close();
-        });
-
-        $close.click(function(e){
-                e.preventDefault();
-                method.close();
-        });
-
-        return method;
-}());
-*/
