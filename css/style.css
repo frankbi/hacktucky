@@ -52,7 +52,7 @@ button.header {
 
 #close {
 	position:absolute;
-	background:url(img/close.png) 0 0 no-repeat;
+	background:url(../img/close.png) 0 0 no-repeat;
 	width:90px;
 	height:90px;
 	display:block;

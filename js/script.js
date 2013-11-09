@@ -26,14 +26,24 @@ var myStyle = [
 	}
 ];
 
-
 var map = null;
 var location, p1;
 var markersArray = [];	
 var markerCounter = 0;
 var guessCounter = 0;
+var score = 0;
+var ranIndex;
+
 // Random number generator
-var ranIndex = Math.floor((Math.random()*180)+1);
+
+	ranIndex = Math.floor((Math.random()*180)+1);
+
+
+function start() {
+	modal.open({ content: function() { 
+		return "<div class='modal-content'>" + d[ranIndex].name + "</div>"; 
+	}});
+}
 
 function clearOverlays() {
 	for (var i = 0; i < markersArray.length; i++ ) {
@@ -65,8 +75,7 @@ function initalize() {
 			}
 
 		}
-	});
-	
+	});	
 }
 
 function placeMarker(lat, long) {
@@ -82,11 +91,13 @@ function placeMarker(lat, long) {
 }
 
 function checkAnswer(p1) {
+	var answerIcon = new google.maps.MarkerImage("../img/drop_red-18.png", null, null, null, new google.maps.Size(55,75));
 	var p2 = new google.maps.LatLng(d[ranIndex].lat, d[ranIndex].long);
 	var marker = new google.maps.Marker({
 		animation: google.maps.Animation.DROP,
 		position: new google.maps.LatLng(p2.nb, p2.ob),
-		map: map
+		map: map,
+		icon: answerIcon
 	});
 	calcDistance(p1, p2);
 	guessCounter = 1;
@@ -115,7 +126,11 @@ function calcDistance(point1, point2) {
 }
 
 function calcScore(dis) {
-	console.log(dis);
+        // dis = distance away in km
+        // use the distance to generate some kind of score
+        // add it to the score variable
+        score = Math.round(score + (1 / dis) * 100);
+        console.log(score)
 }
 
 var modal = (function(){
