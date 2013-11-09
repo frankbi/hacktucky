@@ -6,6 +6,7 @@ var markerCounter = 0;
 var guessCounter = 0;
 var score = 0; // indiv selection score added to globalScore
 var globalScore = 0;
+var scoreTracker = [];
 
 var quesRan = [];
 var quesCounter = 0;
@@ -23,12 +24,13 @@ function start() {
 		
 	$("#side_bar").html(function() {
 		// console.log(d[quesRan[quesCounter]].image_filename);
-		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
+		var masthead = "<div class='masthead'></div>";
 		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
 		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
+		var roundscore = "<div class=\"round_score\"></div>";
 		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
 		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-		return masthead + name + image + checkAns + nextQues; 
+		return masthead + name + image + roundscore + checkAns + nextQues; 
 	});
 
 }
@@ -59,27 +61,29 @@ function nextQues() {
 		/* replace from above */
 		$("#side_bar").html(function() {
 			// console.log(d[quesRan[quesCounter]].image_filename);
-			var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
+			var masthead = "<div class='masthead'></div>";
 			var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
 			var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
+			var roundscore = "<div class=\"round_score\"></div>";
 			var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
 			var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
-			return masthead + name + image + checkAns + nextQues; 
+			return masthead + name + image + roundscore + checkAns + nextQues; 
 		});
 		/* replace from above */
 		////////////////////////
 		
 	} else {
 		$("#side_bar").html(function() {
-			var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
+			var masthead = "<div class='masthead'></div>";
 			var finalscore = "<h1>Final Score: " + globalScore + "</h1>";
-			//var round1 = + "";
-			//var round2 = + "";
-			//var round3 = + "";
-			//var round4 = + "";
-			//var round5 = + "";
+			var round1 = "<p class='finalscores'>Round 1: " + scoreTracker[0] + "</p>";
+			var round2 = "<p class='finalscores'>Round 2: " + scoreTracker[1] + "</p>";
+			var round3 = "<p class='finalscores'>Round 3: " + scoreTracker[2] + "</p>";
+			var round4 = "<p class='finalscores'>Round 4: " + scoreTracker[3] + "</p>";
+			var round5 = "<p class='finalscores'>Round 5: " + scoreTracker[4] + "</p>";
+			var roundscores = round1 + round2 + round3 + round4 + round5;
 			var restart = "<button onclick='location.reload()'>Play Again</button>";
-			return masthead + finalscore + twitterTweet(globalScore) + restart;
+			return masthead + roundscores + finalscore + twitterTweet(globalScore) + restart;
 		});
 	}
 }
@@ -104,11 +108,11 @@ function initalize() {
 		},
 		panControl: true,
 		panControlOptions: {
-			position: google.maps.ControlPosition.RIGHT_CENTER
+			position: google.maps.ControlPosition.TOP_RIGHT
 		},
 		zoomControlOptions: {
 			style: google.maps.ZoomControlStyle.LARGE,
-			position: google.maps.ControlPosition.RIGHT_CENTER
+			position: google.maps.ControlPosition.TOP_RIGHT
 		},
 		center: new google.maps.LatLng(38.234405,-85.804253),
 		zoom: 11,
@@ -169,7 +173,13 @@ function calcScore(dis) {
         // use the distance to generate some kind of score
         // add it to the score variable
         score = Math.round(score + (1 / dis) * 100);
+        scoreTracker.push(score);
         // PREVIOUS ROUND SCORE INNERHTML
+        $(".round_score").html(function() {
+        	var sc = "<h1>Score: " + score + "</h1>";
+        	var distance = "<h1>Distance: " + dis.toFixed(2) + " km</h1>";
+        	return distance + sc;
+        });
         // console.log("one score: " + score);
         globalScore = globalScore + score;
         // console.log("global score: " + globalScore); 
@@ -215,9 +225,10 @@ $(document).ready(function() {
 
 	$("#side_bar").animate({width:"320px"}, 400);
 	$("#side_bar").html(function() {
-		var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
-		var description = "<p class='description'>Click on the map where you think each nationally registered historical landmark is located.</p>";
-		var startbutton = "<button onclick='start()' class='start_button'>Let's get started</button>";
+		var masthead = "<div class='masthead'></div>";
+		var description = "<p class='description' style='border-top:1px '>Click on the map where you think each nationally registered historical landmark is located.</p>";
+		var startbutton = "<img class='startbutton' src='../img/startbutton.png' onclick='start()'>";
+		// var startbutton = "<button onclick='start()' class='start_button'>Let's get started</button>";
 		return masthead + description + startbutton;
 	});
 
