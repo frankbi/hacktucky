@@ -11,9 +11,12 @@ var quesRan = [];
 var quesCounter = 0;
 
 function myQuestions() {
-	for (var i = 0; i < 4; i++) {
-		quesRan[i] = Math.floor((Math.random()*20)+1);
+	for (var i = 0; i < 20; i++) {
+		quesRan[i] = i;
 	}
+	quesRan.sort(function() {
+		return Math.random() - 0.5;
+	});
 }
 
 function start() {
@@ -48,7 +51,7 @@ function nextQues() {
 
 	quesCounter++;
 	console.log(quesCounter);
-	if (quesCounter < 4) {
+	if (quesCounter < 5) {
 		clearOverlays();
 		guessCounter = 0;
 		
@@ -70,6 +73,11 @@ function nextQues() {
 		$("#side_bar").html(function() {
 			var masthead = "<div class='masthead'><h1 class='title'>Historically Louisville</h1></div>";
 			var finalscore = "<h1>Final Score: " + globalScore + "</h1>";
+			//var round1 = + "";
+			//var round2 = + "";
+			//var round3 = + "";
+			//var round4 = + "";
+			//var round5 = + "";
 			var restart = "<button onclick='location.reload()'>Play Again</button>";
 			return masthead + finalscore + twitterTweet(globalScore) + restart;
 		});
@@ -90,11 +98,21 @@ function clearOverlays() {
 function initalize() {
 	map = new google.maps.Map(document.getElementById('map'), {
 		mapTypeControlOptions: {
-			mapTypeIds: ['mystyle', google.maps.MapTypeId.TERRAIN]
+			mapTypeIds: ['mystyle', google.maps.MapTypeId.TERRAIN],
+			style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+			position: google.maps.ControlPosition.BOTTOM_CENTER
+		},
+		panControl: true,
+		panControlOptions: {
+			position: google.maps.ControlPosition.RIGHT_CENTER
+		},
+		zoomControlOptions: {
+			style: google.maps.ZoomControlStyle.LARGE,
+			position: google.maps.ControlPosition.RIGHT_CENTER
 		},
 		center: new google.maps.LatLng(38.234405,-85.804253),
 		zoom: 11,
-		disableDefaultUI: true,
+		disableDefaultUI: false,
 		mapTypeId: 'mystyle'
 	});
 
@@ -121,7 +139,7 @@ function placeMarker(lat, long) {
 		map: map,
 		icon: answerIcon
 	});
-	// console.log(lat);
+
 	markersArray.push(marker);
 	markerCounter++;
 	p1 = new google.maps.LatLng(lat, long);
@@ -151,14 +169,15 @@ function calcScore(dis) {
         // use the distance to generate some kind of score
         // add it to the score variable
         score = Math.round(score + (1 / dis) * 100);
+        // PREVIOUS ROUND SCORE INNERHTML
         // console.log("one score: " + score);
         globalScore = globalScore + score;
         // console.log("global score: " + globalScore); 
 }
 
 function twitterTweet(score) {
-setTimeout(function() {!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs')}, 200);
-	return "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"http://historicallylouisville.com\" data-text=\"Can you beat my score of " + score + "? Test your knowledge of Louisville landmarks at\" data-via=\"sndlou\" data-size=\"large\" data-count=\"none\" data-hashtags=\"hacktucky\">Tweet</a>";
+	setTimeout(function() {!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs')}, 200);
+	return "<a href=\"https://twitter.com/share\" style=\"width:90%\" class=\"twitter-share-button\" data-url=\"http://historicallylouisville.com\" data-text=\"Can you beat my score of " + score + "? Test your knowledge of Louisville landmarks at\" data-via=\"sndlou\" data-size=\"large\" data-count=\"none\" data-hashtags=\"hacktucky\">Tweet</a>";
 }
 
 var myStyle = [
