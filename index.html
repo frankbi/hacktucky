@@ -67,6 +67,7 @@
 	var map = null;
 	var location;
 	var markersArray = [];	
+	var markerCounter = 0;
 	
 	function clearOverlays() {
 		for (var i = 0; i < markersArray.length; i++ ) {
@@ -77,27 +78,27 @@
 	
 	
 	function initalize() {
-	
-	map = new google.maps.Map(document.getElementById('map'), {
-		mapTypeControlOptions: {
-			mapTypeIds: ['mystyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
-		},
-		center: new google.maps.LatLng(38.255976,-85.756214),
-		zoom: 12,
-		disableDefaultUI: true,
-		mapTypeId: 'mystyle'
-	});
+		map = new google.maps.Map(document.getElementById('map'), {
+			mapTypeControlOptions: {
+				mapTypeIds: ['mystyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
+			},
+			center: new google.maps.LatLng(38.255976,-85.756214),
+			zoom: 12,
+			disableDefaultUI: true,
+			mapTypeId: 'mystyle'
+		});
 
-	google.maps.event.addListener(map, 'click', function(event){
-		var lat = event.latLng.lat();
-		var long = event.latLng.lng();
-		placeMarker(lat, long);
-	});
-
+		google.maps.event.addListener(map, 'click', function(event){
+			var lat = event.latLng.lat();
+			var long = event.latLng.lng();
+			if (markerCounter == 0) {
+				placeMarker(lat, long);
+			} else {
+				clearOverlays();
+				placeMarker(lat, long);
+			}
+		});
 	}
-
-
-
 
 	function placeMarker(lat, long) {
 		var marker = new google.maps.Marker({
@@ -105,7 +106,8 @@
 			map: map
 		});
 		markersArray.push(marker);
-		google.maps.event.addListener(marker, "click", function() {});
+		markerCounter++;
+		// google.maps.event.addListener(marker, "click", function() {});
 	}
 
 	$(document).ready(function() {
