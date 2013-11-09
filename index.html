@@ -1,155 +1,23 @@
 <!DOCTYPE html>
 <html> 
 <head> 
-   <meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
-   <title>Historically Louisville</title>
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-   <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script> 
-	<style>
-		h1.title {
-			margin:0px;
-			padding:10px;
-		}
-		#map {
-			position:absolute;
-			top:0px;
-			left:0px;
-			width:100%;
-			height:100%;
-			z-index:1;
-		}
-		#top_bar {
-			position:absolute;
-			top:0px;
-			left:0px;
-			width:100%;
-			height:55px;
-			background-color:white;
-			z-index:2;
-			box-shadow:1px 1px 1px 1px rgba(0,0,0,0.3);
-		}
-	</style>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+	<title>Historically Louisville</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry" type="text/javascript"></script>
+	<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
 </head> 
 <body>
-	<div id="top_bar"><h1 class="title">Historically Louisville</h1><button onclick="checkAnswer(latGuess, longGuess)">Check Answer</button></div>
+	<div id="top_bar" class="clearfix">
+		<h1 class="title">Historically Louisville</h1>
+		<h2 class="byline">By Adam Schweigert, Claire Ellen Lindsey and Frank Bi</h2>
+		<button class="header">Let's get started</button>
+		<button onclick="checkAnswer(p1)">Check Answer</button>
+		<!--<p class="description"></p>-->
+		</div>
 	<div id="map"></div> 
    <script type="text/javascript" src="data.js"></script>
-   <script type="text/javascript"> 
-	var myStyle = [
-		{
-			featureType: "administrative",
-			elementType: "labels",
-			stylers: [
-				{ visibility: "off" }
-			]
-		},{
-			featureType: "poi",
-			elementType: "labels",
-			stylers: [
-				{ visibility: "off" }
-			]
-		},{
-			featureType: "water",
-			elementType: "labels",
-			stylers: [
-				{ visibility: "on" }
-			]
-		},{
-			featureType: "road",
-			elementType: "labels",
-			stylers: [
-				{ visibility: "off" }
-			]
-		}
-	];
-
-
-	var map = null;
-	var location;
-	var markersArray = [];	
-	var markerCounter = 0;
-	var latGuess, longGuess;
-	
-	// Random number
-	var ranIndex = Math.floor((Math.random()*180)+1);
-	
-	function clearOverlays() {
-		for (var i = 0; i < markersArray.length; i++ ) {
-			markersArray[i].setMap(null);
-		}
-		markersArray = [];
-	}
-	
-	function initalize() {
-		map = new google.maps.Map(document.getElementById('map'), {
-			mapTypeControlOptions: {
-				mapTypeIds: ['mystyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
-			},
-			center: new google.maps.LatLng(38.255976,-85.756214),
-			zoom: 12,
-			disableDefaultUI: true,
-			mapTypeId: 'mystyle'
-		});
-
-		google.maps.event.addListener(map, 'click', function(event){
-			var lat = event.latLng.lat();
-			var long = event.latLng.lng();
-			if (markerCounter == 0) {
-				placeMarker(lat, long);
-			} else {
-				clearOverlays();
-				placeMarker(lat, long);
-			}
-		});
-	}
-
-	function placeMarker(lat, long) {
-		var marker = new google.maps.Marker({
-			position: new google.maps.LatLng(lat, long),
-			map: map
-		});
-		markersArray.push(marker);
-		markerCounter++;
-		latGuess = lat;
-		longGuess = long;
-		// google.maps.event.addListener(marker, "click", function() {});
-	}
-
-	$(document).ready(function() {
-		initalize();
-		console.log(d[ranIndex]);
-		map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle));	
-	});
-
-	function checkAnswer(latGuess, longGuess) {
-		// console.log(latGuess, longGuess);
-		calcDistance(latGuess, longGuess, d[ranIndex].lat, d[ranIndex].long);
-	}
-
-if (typeof(Number.prototype.toRad) === "undefined") {
-  Number.prototype.toRad = function() {
-    return this * Math.PI / 180;
-  }
-}
-
-	// console.log(Math.floor((Math.random()*40)+1));
-
-	
-	function calcDistance(latGuess, longGuess, latReal, longReal) {
-		var R = 6371; // km
-		var dLat = (latReal-latGuess).toRad();
-		var dLon = (longReal-longGuess).toRad();
-		var latGuess = latGuess.toRad();
-		var latReal = latReal.toRad();
-
-		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-				Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(latGuess) * Math.cos(latReal); 
-		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-		var d = R * c;
-		alert(d);
-	}
-	
-
-   </script> 
+   <script type="text/javascript" src="js/script.js"></script>
 </body> 
 </html>
