@@ -25,7 +25,7 @@ function start() {
 	$("#side_bar").html(function() {
 		// console.log(d[quesRan[quesCounter]].image_filename);
 		var masthead = "<div class='masthead'></div>";
-		var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
+		var name = "<h1 class='place'>" + d[quesRan[quesCounter]].name + "</h1>";
 		var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
 		var roundscore = "<div class=\"round_score\"></div>";
 		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
@@ -44,6 +44,18 @@ function checkAnswer(p1) {
 		map: map,
 		icon: answerIcon
 	});
+	
+	$("#side_bar").html(function() {
+		var masthead = "<div class='masthead'></div>";
+		var name = "<h1 class='place'>" + d[quesRan[quesCounter]].name + "</h1>";
+		var image = "<div class='descrip_box'><img class=\"side_bar_photo descrip\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
+		var description = d[quesRan[quesCounter]].short_description + "</div>";
+		var roundscore = "<div class=\"round_score\"></div>";
+		var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
+		var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
+		return masthead + name + image + description + roundscore + checkAns + nextQues; 
+	});
+	
 	markersArray.push(marker);
 	calcDistance(p1, p2);
 	guessCounter = 1;
@@ -57,21 +69,17 @@ function nextQues() {
 		clearOverlays();
 		guessCounter = 0;
 		
-		////////////////////////
-		/* replace from above */
 		$("#side_bar").html(function() {
-			// console.log(d[quesRan[quesCounter]].image_filename);
 			var masthead = "<div class='masthead'></div>";
-			var name = "<h1>" + d[quesRan[quesCounter]].name + "</h1>";
+			var name = "<h1 class='place'>" + d[quesRan[quesCounter]].name + "</h1>";
 			var image = "<img class=\"side_bar_photo\" src=\"../img/" + d[quesRan[quesCounter]].image_filename + "\">";
 			var roundscore = "<div class=\"round_score\"></div>";
 			var checkAns = "<button onclick='checkAnswer(p1)'>Make Your Guess</button>";
 			var nextQues = "<button class='next_button' onclick='nextQues()'>Next</button>";
 			return masthead + name + image + roundscore + checkAns + nextQues; 
 		});
-		/* replace from above */
-		////////////////////////
-		
+
+
 	} else {
 		$("#side_bar").html(function() {
 			var masthead = "<div class='masthead'></div>";
@@ -156,9 +164,9 @@ function calcDistance(point1, point2) {
 	setTimeout(function() {
 		var line = new google.maps.Polyline({
 		path: [new google.maps.LatLng(point1.nb, point1.ob), new google.maps.LatLng(point2.nb, point2.ob)],
-			strokeColor: "black",
+			strokeColor: "rgb(64,178,128)",
 			strokeOpacity: 1.0,
-			strokeWeight: 2,
+			strokeWeight: 3,
 			map: map
 		});
 		linesArray.push(line);
@@ -174,10 +182,9 @@ function calcScore(dis) {
         // add it to the score variable
         score = Math.round(score + (1 / dis) * 100);
         scoreTracker.push(score);
-        // PREVIOUS ROUND SCORE INNERHTML
         $(".round_score").html(function() {
-        	var sc = "<h1>Score: " + score + "</h1>";
-        	var distance = "<h1>Distance: " + dis.toFixed(2) + " km</h1>";
+        	var sc = "<h1 style='font-size:15px;'>Score: " + score + "</h1>";
+        	var distance = "<h1 style='font-size:15px;'>Distance: " + dis.toFixed(2) + " km</h1>";
         	return distance + sc;
         });
         // console.log("one score: " + score);
@@ -226,10 +233,10 @@ $(document).ready(function() {
 	$("#side_bar").animate({width:"320px"}, 400);
 	$("#side_bar").html(function() {
 		var masthead = "<div class='masthead'></div>";
-		var description = "<p class='description' style='border-top:1px '>Click on the map where you think each nationally registered historical landmark is located.</p>";
+		var subhead = "<p class='subhead'>Explore Louisville's historic landmarks</p>";
+		var description = "<p class='description' style='font-weight:bold;font-style:italic;color:rgb(211,87,61);'>Click on the map where you think each nationally registered historical landmark is located.</p>";
 		var startbutton = "<img class='startbutton' src='../img/startbutton.png' onclick='start()'>";
-		// var startbutton = "<button onclick='start()' class='start_button'>Let's get started</button>";
-		return masthead + description + startbutton;
+		return masthead + subhead + description + startbutton;
 	});
 
 
