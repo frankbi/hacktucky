@@ -42,7 +42,7 @@ ranIndex = Math.floor((Math.random()*180)+1);
 
 function start() {
 
-	$("#side_bar").animate({width:"350px"}, 400);
+	$("#side_bar").animate({width:"400px"}, 400);
 	$(".header").remove();
 	/*
 	modal.open({ content: function() { 
@@ -149,6 +149,19 @@ function calcScore(dis) {
         console.log(score)
 }
 
+$(document).ready(function() {
+	initalize();
+	console.log(d[ranIndex]);
+	$("#top_bar").html(function() {
+		var title = "<h1 class=\"title\">Historically Louisville</h1>";
+		var byline = "<h2 class=\"byline\">By Adam Schweigert, Claire Ellen Lindsey and Frank Bi</h2>";
+		var start = "<button onclick=\"start()\" class=\"header\">Let's get started</button>";
+		return title + byline + start;
+	});
+	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle));
+});
+
+/*
 var modal = (function(){
         var
         method = {},
@@ -220,16 +233,4 @@ var modal = (function(){
 
         return method;
 }());
-
-$(document).ready(function() {
-	initalize();
-	console.log(d[ranIndex]);
-	$("#top_bar").html(function() {
-		var title = "<h1 class=\"title\">Historically Louisville</h1>";
-		var byline = "<h2 class=\"byline\">By Adam Schweigert, Claire Ellen Lindsey and Frank Bi</h2>";
-		var start = "<button onclick=\"start()\" class=\"header\">Let's get started</button>";
-		return title + byline + start;
-	});
-	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle));
-});
-
+*/
