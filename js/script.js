@@ -17,7 +17,7 @@ function myQuestions() {
 }
 
 function start() {
-	$("#side_bar").animate({width:"400px"}, 400);
+	$("#side_bar").animate({width:"320px"}, 400);
 	$(".header").remove();
 		
 	$("#side_bar").html(function() {
@@ -80,8 +80,8 @@ function initalize() {
 		mapTypeControlOptions: {
 			mapTypeIds: ['mystyle', google.maps.MapTypeId.TERRAIN]
 		},
-		center: new google.maps.LatLng(38.255976,-85.756214),
-		zoom: 12,
+		center: new google.maps.LatLng(38.0,-85.45),
+		zoom: 10,
 		disableDefaultUI: true,
 		mapTypeId: 'mystyle'
 	});
