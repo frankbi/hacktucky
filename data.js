@@ -356,7 +356,7 @@ d = [
     "long":-85.765,
     "lat":38.225833,
     "name":"Steam Engine Company No. 18",
-    "short_description":"",
+    "short_description":"The Historic Firehouses of Louisville is a Thematic Resource (TR) Multiple Property Submission (MPS) on the National Register of Historic Places. The submission represents 18 historic fire stations, located in Louisville, Kentucky, which were added to the National Register in 1980-1081 due to their historical and architectural merits.",
     "street_address":"2600 S. 4th St.",
     "zip":40208,
     "image_filename":"366_firehouse_18.jpg",
